@@ -2,27 +2,34 @@
 {
     using System;
 
-    delegate string GetNextDay();
+    delegate Person GetNextDay(int i);
 
     class Program
     {
         static void Main(string[] args)
         {
             // Создаем экземпляр делегата с использованием лямбда-выражения
-            GetNextDay getNextDay = () =>
+            GetNextDay getNextDay = (int i) =>
             {
-                DateTime today = DateTime.Today;
-                DateTime nextDay = today.AddDays(1);
-                return nextDay.DayOfWeek.ToString();
+
+               Person person = new Person() { Id = i };
+
+                do    
+                {
+                    DateTime     today = DateTime.Today;
+                    DateTime nextDay = today.AddDays(i);
+                  
+                    Console.WriteLine(nextDay.DayOfWeek.ToString());
+                    i++;
+                } while (i <= 7);
+               
+                return person;
             };
 
-            // Первый вызов делегата
-            Console.WriteLine("Сегодня: " + DateTime.Today.DayOfWeek);
-            Console.WriteLine("Завтра: " + getNextDay());
-
-            // Последующие вызовы делегата
-            Console.WriteLine("Послезавтра: " + getNextDay());
-            Console.WriteLine("Через три дня: " + getNextDay());
+            int i = 1;
+           var d =          getNextDay(i);
+       
+        
             Console.ReadLine();
         }
     }
